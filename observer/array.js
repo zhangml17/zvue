@@ -3,6 +3,7 @@ import { def } from '../utils/index.js'
 const arrayProto = Array.prototype
 export const arrayMethods = Object.create(arrayProto)
 
+// 这里的方法都是能改变原数组的方法
 const methodsToPatch = [
   'pop',
   'push',
