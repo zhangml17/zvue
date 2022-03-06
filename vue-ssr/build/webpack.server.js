@@ -2,6 +2,7 @@
 const base = require('./webpack.base.js')
 const merge = require('webpack-merge').merge
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
 const path = require('path')
 const resolve = (dir) => {
@@ -11,12 +12,19 @@ const resolve = (dir) => {
 // webpack打包服务器端代码，不需要引入打包后端js，js由前端端提供，服务端仅提供打包出来的html字符串即可
 module.exports = merge(base, {
     entry: {
-        client:resolve('../src/server-entry.js')
+        server:resolve('../src/server-entry.js')
+    },
+    target:'node', // webpack将在类nodejs环境编译
+    output:{
+        libraryTarget:'commonjs2' // 以module.exports的方式导出
     },
     plugins:[
+        new VueSSRServerPlugin(),
         new HtmlWebpackPlugin({
+            filename:'index-server.html',
             template:resolve('../public/index-server.html'),
-            excludeChunks:['server']
+            minify:false, // 代码不压缩，保证注释存在
+            excludeChunks:['server'] // 排除引入文件
         })
     ]
 })

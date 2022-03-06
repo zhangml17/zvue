@@ -3,7 +3,8 @@
 ```
 npm install
 cd vue-ssr
-npm run client-dev
+npm run run-all
+node server.js
 ```
 放在浏览器进行就是浏览器渲染，放在服务器进行就是服务器渲染
 + 客户端渲染不利于SEO搜索引擎优化
@@ -22,3 +23,4 @@ npm run client-dev
 ### 注意
 - vue的版本和vue-server-renderer两个包的版本要一致
 - vue-loader的15.x版本的vue-loader-plugin插件才在vue-loader/lib/plugin目录下，@16.x、@17.x版本就没有lib目录
+- concurrently 同时执行多条命令

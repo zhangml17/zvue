@@ -8,11 +8,12 @@ const resolve = (dir) => {
     return path.resolve(__dirname, dir)
 } 
 module.exports = {
-    mode:'development',
+    // mode:'development',
     output:{
         filename:'[name].bundle.js',
         path:resolve('../dist')
     },
+    // target:'node', // webpack将在类nodejs环境编译
     resolve:{
         extensions:[ '.js', '.vue', '.css', '.jsx' ] // 当导入语句没有带指定文件后缀时会自动带上
     },
