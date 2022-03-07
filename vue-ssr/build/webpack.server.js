@@ -21,8 +21,8 @@ module.exports = merge(base, {
     plugins:[
         new VueSSRServerPlugin(),
         new HtmlWebpackPlugin({
-            filename:'index-server.html',
-            template:resolve('../public/index-server.html'),
+            // filename:'index-server.html',
+            // template:resolve('../public/index-server.html'),
             minify:false, // 代码不压缩，保证注释存在
             excludeChunks:['server'] // 排除引入文件
         })

@@ -2,7 +2,6 @@
 ### 启动
 ```
 npm install
-cd vue-ssr
 npm run run-all
 node server.js
 ```
@@ -24,3 +23,12 @@ node server.js
 - vue的版本和vue-server-renderer两个包的版本要一致
 - vue-loader的15.x版本的vue-loader-plugin插件才在vue-loader/lib/plugin目录下，@16.x、@17.x版本就没有lib目录
 - concurrently 同时执行多条命令
+- vue-server-renderer版本为2.6.14，限制了vue只能使用相同版本，同时vue-router版本也要匹配
+
+### 遇到问题
++ 当vue-server-renderer/server-plugin和html-webpack-plugin同时使用时，打包不出.html文件？<br>
+解决：server.js中的renderTemplate使用public/index-server.html即可，不必使用打包后的静态文件
++  Failed to mount component: template or render function not defined.<br>
+解决：[资料](https://blog.csdn.net/suixaingjun/article/details/88798829)
++ TypeError: template.head is not a function <br>
+解决：尚未解决

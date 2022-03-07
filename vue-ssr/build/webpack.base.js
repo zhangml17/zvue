@@ -4,6 +4,7 @@
 
 const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const resolve = (dir) => {
     return path.resolve(__dirname, dir)
 } 
