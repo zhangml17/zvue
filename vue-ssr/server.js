@@ -24,7 +24,7 @@ let router = new Router() // 路由实例
 // })
 
 const serverBundle = require('./dist/vue-ssr-server-bundle.json')
-const renderTemplate = fs.readFileSync(resolve(__dirname, './public/index-server.html'))
+const renderTemplate = fs.readFileSync(resolve(__dirname, './dist/index-server.html'))
 const clientManifest = require('./dist/vue-ssr-client-manifest.json')
 
 const render = VueServerRenderer.createBundleRenderer(serverBundle, {
@@ -35,15 +35,11 @@ const render = VueServerRenderer.createBundleRenderer(serverBundle, {
 router.get('/(.*)', async ctx => {
     console.log(ctx.url)
     // 在渲染页面时，需要让服务器根据当前路径渲染对应的路由
-    let res = await render.renderToString({ url: ctx.url })
-    console.log(res, '--res')
-    ctx.body = res
-    // ctx.body = await new Promise((resolve, reject) => {
-    //     render.renderToString({ url: ctx.url }, (err, data) => {
-    //         if(err) reject(err)
-    //         resolve(data)
-    //     })
-    // })
+    try {
+        ctx.body = await render.renderToString({ url: ctx.url })
+    } catch (error) {
+        if(error.code === 404) ctx.body = '页面找不到啦'
+    }
     // ctx.body = await render.renderToString(vm)
 })
 app.use(static(resolve(__dirname, 'dist'))) 
