@@ -19,12 +19,12 @@ const store = new ZVuex.Store({ // ZVuex中有个Store类
     },
     actions:{
         asyncChangeAge({ commit }, payload) {
-            return new Promise((resolve, reject) => {
+            // return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     commit('changeAge', payload)
-                    resolve()
+                    // resolve()
                 }, 1000)
-            })
+            // })
         }
     },
     modules:{
