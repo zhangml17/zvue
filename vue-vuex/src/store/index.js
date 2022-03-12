@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import ZVuex from '@/zvuex'
+import a from './modules/a'
+import b from './modules/b'
 
 Vue.use(ZVuex)  // ZVuex 有install方法
 
@@ -28,7 +30,8 @@ const store = new ZVuex.Store({ // ZVuex中有个Store类
         }
     },
     modules:{
-
+        a,
+        b
     }
 })
 
