@@ -23,7 +23,8 @@ const installModule = (store, rootState, path, module) => {
     module.forEachMutation((mutation, key) => {
         store._mutations[namespacedPath + key] = store._mutations[namespacedPath + key] || []
         store._mutations[namespacedPath + key].push((payload) => {
-            mutation.call(store, module.state, payload)
+            mutation.call(store, getState(store, path), payload)
+            store._subscribes.forEach( subscribe => subscribe(mutation, store.state))
         })
     })
     module.forEachAction((action, key) => {
@@ -34,7 +35,7 @@ const installModule = (store, rootState, path, module) => {
     })
     module.forEachGetter((getter, key) => {
         store._wrappedGetters[namespacedPath + key] = function() {
-            return getter(module.state)
+            return getter(getState(store, path))
         }
     })
     module.forEachChild((child, key) => {
@@ -62,7 +63,12 @@ const resetStoreVM = (store, state) => {
         computed
     })
 }
-
+// 获取最新的state
+const getState = (store, path) => {
+    return path.reduce((newState, current) => {
+        return newState[current]
+    }, store.state)
+}
 export let Vue
 export class Store {
     constructor(options) {
@@ -73,6 +79,7 @@ export class Store {
         this._actions = {}
         this._getters = {}
         this._wrappedGetters = {}
+        this._subscribes = [] // 插件
         // 1、定义state
         let state = options.state
         // 模块化实现
@@ -80,7 +87,16 @@ export class Store {
         
         installModule(this, state, [], this._modules.root)
         resetStoreVM(this, state)
+        options.plugins.forEach(plugin => plugin(this))
     }
+    // 状态更新
+    replaceState(state) {
+        this._vm._data.$$state = state
+    }
+    subscribe(fn) { // 订阅
+        this._subscribes.push(fn)
+    } 
+
     commit = (type, payload) => { // 箭头函数是为了保证始终是当前this
         // 这里有问题：当dispatch传入的type带有模块路径时，但commit的mutation传入的type是没有模块路径的
         // 所以this._mutations[type]会找不到

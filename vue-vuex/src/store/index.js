@@ -5,7 +5,22 @@ import b from './modules/b'
 
 Vue.use(ZVuex)  // ZVuex 有install方法
 
+function persists() {
+    return function(store) { 
+        let data = localStorage.getItem('VUEX:STATE')
+        if(data) {
+            store.replaceState(JSON.parse(data))
+        }
+        store.subscribe((mutation, state) => {
+            localStorage.setItem('VUEX:STATE', JSON.stringify(state))
+        })
+    }
+}
+
 const store = new ZVuex.Store({ // ZVuex中有个Store类
+    plugins:[
+        persists()
+    ],
     state:{
         age:10
     },
