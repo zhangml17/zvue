@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <h1>{{ $store.state.age }}岁</h1>
-    <h1>{{ $store.getters.myAge }}岁</h1>
+    <h1>mapState辅助函数实现：{{ age }}岁</h1>
+    <h1>mapGetters:{{ myAge }}岁</h1>
     <h1>a模块{{ $store.state.a.age }}岁</h1>
     <h1>b模块{{ $store.state.b.age }}岁</h1>
     <h1>c模块{{ $store.state.a.c.age }}岁</h1>
@@ -12,10 +13,15 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from './zvuex'
 
 export default {
   name: 'App',
   components: {
+  },
+  computed:{
+    ...mapState(['age']),
+    ...mapGetters(['myAge'])
   },
   mounted() {
     console.log(this.$store)
