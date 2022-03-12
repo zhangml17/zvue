@@ -1,6 +1,9 @@
 import { forEachValue } from "../utils"
 
 export default class Module {
+    get namespaced() {
+        return !!this._row.namespaced
+    }
     constructor(module) {
         this._row = module // 当前模块
         this.children = {} // 当前模块的子模块

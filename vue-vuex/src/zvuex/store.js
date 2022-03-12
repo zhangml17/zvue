@@ -10,8 +10,9 @@ import ModuleCollection from '../zvuex/module-collection'
  * @param {*} module 结构化的module对象
  */
 const installModule = (store, rootState, path, module) => {
+    // 获取namespaced路径
+    let namespacedPath = store._modules.getNamespaced(path)
     // 安装所有getters、mutations、actions以及所有状态
-
     if(path.length > 0) {
         let parent = path.slice(0, -1).reduce((timeResult, current) => {
             return timeResult[current]
@@ -20,19 +21,19 @@ const installModule = (store, rootState, path, module) => {
     }
 
     module.forEachMutation((mutation, key) => {
-        store._mutations[key] = store._mutations[key] || []
-        store._mutations[key].push((payload) => {
+        store._mutations[namespacedPath + key] = store._mutations[namespacedPath + key] || []
+        store._mutations[namespacedPath + key].push((payload) => {
             mutation.call(store, module.state, payload)
         })
     })
     module.forEachAction((action, key) => {
-        store._actions[key] = store._actions[key] || []
-        store._actions[key].push((payload) => {
+        store._actions[namespacedPath + key] = store._actions[namespacedPath + key] || []
+        store._actions[namespacedPath + key].push((payload) => {
             action.call(store, store, payload)
         })
     })
     module.forEachGetter((getter, key) => {
-        store._wrappedGetters[key] = function() {
+        store._wrappedGetters[namespacedPath + key] = function() {
             return getter(module.state)
         }
     })
@@ -40,7 +41,7 @@ const installModule = (store, rootState, path, module) => {
         installModule(store, rootState, path.concat(key), child)
     })
 }
-// 将store属性挂载
+// 将store属性挂载，实现数据的响应化
 const resetStoreVM = (store, state) => {
     store.getters = {}
     let computed = {}
@@ -76,53 +77,16 @@ export class Store {
         let state = options.state
         // 模块化实现
         this._modules = new ModuleCollection(options) // 数据格式化
-        console.log(this._modules);
         
         installModule(this, state, [], this._modules.root)
-        console.log(this);
-        console.log(state);
         resetStoreVM(this, state)
-        
-
-
-        // 以下非模块化实现
-        // // 2、定义getters,通过计算属性computed实现缓存（ Vue3.0卡丝hi，getter的结果不再像计算属性一样会被缓存起来）
-        // this.getters = {}
-        // let computed = {}
-        // forEachValue(options.getters, (fn, key) => {
-        //     computed[key] = () => fn(this.state)
-        //     Object.defineProperty(this.getters, key, {
-        //         get:() => this._vm[key]
-        //     })
-        // })
-        // // 3、定义mutations
-        // this.mutations = {}
-        // const mutations = options.mutations
-        // forEachValue(mutations, (fn, key) => {
-        //     this.mutations[key] = (payload) => fn(this.state, payload)
-        // })
-        // // 4、实现actions
-        // this.actions = {}
-        // const actions = options.actions
-        // forEachValue(actions, (fn, key) => {
-        //     this.actions[key] = (payload) => fn(this,payload)
-        // })     
-
-        // this._vm = new Vue({
-        //     data:{
-        //         $$state:state, // 该属性会被存在vue实例的_data属性中
-        //     },
-        //     computed
-        // })
-
-        console.log(this._vm);
     }
     commit = (type, payload) => { // 箭头函数是为了保证始终是当前this
-        // this.mutations[type](payload)
+        // 这里有问题：当dispatch传入的type带有模块路径时，但commit的mutation传入的type是没有模块路径的
+        // 所以this._mutations[type]会找不到
         this._mutations[type].forEach( mutation => mutation.call(this, payload))
     }
     dispatch = (type, payload) => {
-        // this.actions[type](payload)
         this._actions[type].forEach( action => action.call(this, payload))
     }
     get state() {

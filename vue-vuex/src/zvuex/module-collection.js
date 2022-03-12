@@ -5,6 +5,13 @@ export default class ModuleCollection {
     constructor(options) {
         this.registerModule([], options)
     }
+    getNamespaced(path) {
+        let root = this.root
+        return path.reduce((str, key) => {
+            root = root.getChild(key)
+            return str + (root.namespaced ? `${key}/` : '')
+        }, '')
+    }
     registerModule(path, currentModule) {
         let newModule = new Module(currentModule)
 

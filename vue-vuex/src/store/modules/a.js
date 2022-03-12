@@ -1,7 +1,7 @@
 import c from './c'
 
 export default {
-    namespace:true,
+    namespaced:true,
     state:{
         age: 100
     },
