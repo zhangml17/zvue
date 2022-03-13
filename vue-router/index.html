@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-router</title>
+</head>
+<body>
+    <!-- hash模式 -->
+    <!-- <a href="#/a">A页面</a>
+    <a href="#/b">B页面</a> -->
+
+    <!-- history模式 -->
+    <!-- <a onClick="goA()">A页面</a>
+    <a onClick="goB()">B页面</a> -->
+
+    <div id="app"></div>
+
+    <script>
+        // 1、hash模式 浏览器可以前进、后退
+        // function fn() {
+        //     app.innerHTML = window.location.hash
+        // }
+        // fn()
+        // window.addEventListener('hashchange', function() {
+        //     fn()
+        // })
+
+        // 2、history模式 浏览器不可以前进、后退
+        // function fn() {
+        //     app.innerHTML = window.location.pathname
+        // }
+        // fn()
+        // function goA() {
+        //     history.pushState({}, null, '/a')
+        //     fn()
+        // }
+        // function goB() {
+        //     history.pushState({}, null, '/b')
+        //     fn()
+        // }
+        // // 实现history时 支持浏览器前进、后退
+        // window.addEventListener('popstate', function() {
+        //     fn()
+        // })
+
+    </script>
+</body>
+</html>
