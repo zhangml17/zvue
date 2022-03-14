@@ -3,7 +3,7 @@ export let _Vue
 export default function install(Vue, options) {
     // 插件安装入口
     _Vue = Vue
-
+    console.log(options);
     // 所有组件绑定router实例
     Vue.mixin({
         beforeCreate() {
