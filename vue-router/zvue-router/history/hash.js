@@ -43,5 +43,5 @@ function getUrl(path) {
     const href = window.location.href
     const i = href.indexOf('#') 
     const base = i >= 0 ? href.slice(0, i) : href // 获取#前的path
-    return `${base}${path}`
+    return `${base}#${path}`
 }

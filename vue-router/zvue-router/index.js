@@ -15,7 +15,10 @@ export default class VueRouter {
             case 'history':
                 this.history = new HTML5History(this);break;
         }
-        this.init(this)
+    }
+    // 返回匹配到的路由
+    match(location) {
+        return this.matcher.match(location)
     }
     // 初始化
     init(app) {
@@ -28,6 +31,12 @@ export default class VueRouter {
             history.getCurrentLocation(),
             setupListeners
         )
+        console.log('init enter');
+        // 每次路径变化 调用此方法将新的route更新到实例的响应式_route上
+        history.listen((route) => {
+            app._route = route
+            console.log('--app._route', app._route);
+        })
     }
     // 动态添加路由
     addRoutes(routes) {

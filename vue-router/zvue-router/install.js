@@ -3,15 +3,16 @@ export let _Vue
 export default function install(Vue, options) {
     // 插件安装入口
     _Vue = Vue
-    console.log(options);
     // 所有组件绑定router实例
     Vue.mixin({
         beforeCreate() {
-            if(this.$options.store) {
+            if(this.$options.router) {
                 this._routerRoot = this
-                this._router = this.$options.store
+                this._router = this.$options.router
                 // 根组件下 初始化
                 this._router.init(this)
+                Vue.util.defineReactive(this, '_route', this._router.history.current)
+                console.log(this._route, '_route');
             }else {
                 this._routerRoot = this.$parent && this.$parent._routerRoot
             }
