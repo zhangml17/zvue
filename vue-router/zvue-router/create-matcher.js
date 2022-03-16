@@ -6,8 +6,6 @@ import { createRoute } from './history/base';
  * @param {*} routes 
  */
 export default function createMatcher(routes) {
-    console.log(routes);
-
     // pathMap:根据路径path扁平化后的map
     const { pathMap } = createRouteMap(routes) // 扁平化数据
     
@@ -21,8 +19,6 @@ export default function createMatcher(routes) {
     // 添加routes，同时将新的routes也放到映射表中扁平化处理
     function addRoutes(routes) {
         createRouteMap(routes, pathMap) 
-        console.log(pathMap, '---addRoutes pathMap');
-        
     } 
     return {
         match,

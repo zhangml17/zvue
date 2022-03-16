@@ -1,3 +1,6 @@
+import Link from './components/Link'
+import View from './components/View'
+
 export let _Vue
 
 export default function install(Vue, options) {
@@ -12,7 +15,6 @@ export default function install(Vue, options) {
                 // 根组件下 初始化
                 this._router.init(this)
                 Vue.util.defineReactive(this, '_route', this._router.history.current)
-                console.log(this._route, '_route');
             }else {
                 this._routerRoot = this.$parent && this.$parent._routerRoot
             }
@@ -20,13 +22,17 @@ export default function install(Vue, options) {
         },
     })
     // 1、注册全局组件 router-link、router-view
-    Vue.component('router-link', {
-        render: h => h('a', {}, '')
-    })
-    Vue.component('router-view', {
-        render: h => h('div', {}, '')
-    })
+    Vue.component('router-link', Link)
+    Vue.component('router-view', View)
     // 2、绑定原型方法$router、$route
-    Vue.prototype.$route = {}
-    Vue.prototype.$router = {}
+    Object.defineProperty(Vue.prototype, '$route', {
+        get() {
+            return this._routerRoot._route
+        }
+    })
+    Object.defineProperty(Vue.prototype, '$router', {
+        get() {
+            return this._routerRoot._router
+        }
+    })
 }

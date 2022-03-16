@@ -16,6 +16,16 @@ function formatMatch(record) {
     return res
 }
 
+const runQueue = (queue, iterator, cb) => {
+    // 异步迭代
+    function step(index) {
+        if(index >= queue.length) return cb()
+        let hook = queue[index]
+        iterator(hook, () => step(index+1))
+    }
+    step(0)
+}
+
 export class History {
     constructor(router) {
         this.router = router
@@ -35,13 +45,21 @@ export class History {
         // ...todo
         // 当前匹配到的路由结果
         let route = this.router.match(location) // { matched:[] }
-        console.log(route, '--route');
         // 相同路由不用刷新
         if(location === this.current.path 
             && route.matched.length === this.current.matched.length) return
-        console.log('需要更新');
-        this.updateRoute(route)
-        onComplete && onComplete()
+        
+        let queue = [].concat(this.router.beforeHooks)
+        const iterator = (hook, next) => {
+            hook(this.current, route, () => {
+                next()
+            })
+        }
+        // 执行钩子队列
+        runQueue(queue, iterator, () => {
+            this.updateRoute(route)
+            onComplete && onComplete()
+        })
     }
     // 更新当前路由对象
     updateRoute(route) {

@@ -39,4 +39,16 @@ router.addRoutes([
     { path:'auth', component: { render: h => h('div', {}, 'auth') } }
 ])
 
+router.beforeEach((from, to, next) => {
+    console.log('first');
+    setTimeout(() => {
+        next()
+    }, 1000)
+})
+router.beforeEach((from, to, next) => {
+    console.log('second');
+    setTimeout(() => {
+        next()
+    }, 1000)
+})
 export default router 

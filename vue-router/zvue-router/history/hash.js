@@ -17,6 +17,11 @@ export class HashHistory extends History{
     getCurrentLocation() {
         return getHash()
     }
+
+    push(location) {
+        // 路由跳转之后，同时更新url地址
+        this.transitionTo(location, replaceHash(location))
+    }
 }
 // 保证hash
 function ensureSlash() {
