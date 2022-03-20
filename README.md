@@ -1,9 +1,7 @@
-## 实现一个超简单类vue的zvue框架Demo
-### 实现指令
-+ z-text、z-html、z-model
-### 实现事件
-+ @
-### 实现插值绑定
+## 手码实现Vue源码系列
 
-### 执行
-+ 直接运行HTML页面即可
+### 运行
+```
+npm install
+npm run dev
+```

@@ -4,7 +4,8 @@
   "description": "+ z-text、z-html、z-model ### 实现事件 + @ ### 实现插值绑定",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev":"rollup -c -w"
   },
   "repository": {
     "type": "git",

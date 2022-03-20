@@ -1,4 +1,4 @@
-import { initMixin } from './init.js'
+import { initMixin } from './init.js/index.js'
 
 function Vue() {
   this._init(options)

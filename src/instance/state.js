@@ -1,4 +1,4 @@
-import { observe } from "./observer/index.js"
+import { observe } from "../observer/index.js"
 
 export function initState(vm) {
   // 数据响应化
