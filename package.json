@@ -1,0 +1,23 @@
+{
+  "name": "zvue",
+  "version": "1.0.0",
+  "description": "+ z-text、z-html、z-model ### 实现事件 + @ ### 实现插值绑定",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangml17/zvue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangml17/zvue/issues"
+  },
+  "homepage": "https://github.com/zhangml17/zvue#readme",
+  "devDependencies": {
+    "rollup": "^2.70.1"
+  }
+}
