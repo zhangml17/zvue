@@ -2,7 +2,7 @@ import babel from 'rollup-plugin-babel'
 import serve from 'rollup-plugin-serve'
 
 export default {
-    input:'./src/index.js',
+    input:'./src/instance/index.js',
     output:{
         format:'umd',
         name:'Vue',

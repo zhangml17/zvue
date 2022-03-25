@@ -68,7 +68,7 @@ class Compile {
     }
 
     compileText(node){
-        this.update(node,this.$vm,RegExp.$1,'text')
+        this.update(node,this.$vm,RegExp.$1.trim(),'text')
     }
 
     // 更新函数

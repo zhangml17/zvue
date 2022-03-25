@@ -3,11 +3,11 @@ import { observe } from "../observer/index.js"
 export function initState(vm) {
   // 数据响应化
   let opts = vm.$options
-  if(opts.props) initProps()
-  if(opts.methods) initMethods()
+  if(opts.props) initProps(vm)
+  if(opts.methods) initMethods(vm)
   if(opts.data) initData(vm)
-  if(opts.computed) initComputed()
-  if(opts.watch) initWatch()
+  if(opts.computed) initComputed(vm)
+  if(opts.watch) initWatch(vm)
 }
 
 function initProps() {}

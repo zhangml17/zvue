@@ -1,4 +1,4 @@
- import { initState } from './state.js/index.js'
+ import { initState } from './state.js'
 
 let uid = 0 
 export function initMixin(Vue) {
